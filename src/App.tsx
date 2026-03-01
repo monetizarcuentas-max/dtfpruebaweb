@@ -143,10 +143,14 @@ const Hero = () => {
         >
           <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl bg-zinc-100">
             <img 
-              src="https://images.unsplash.com/photo-1635805737707-575885ab0820?auto=format&fit=crop&q=80&w=800&h=800" 
+              src="/portada.png" 
               alt="Spider-Man DTF Venado" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "https://images.unsplash.com/photo-1635805737707-575885ab0820?q=80&w=800";
+              }}
             />
           </div>
           <div className="absolute -bottom-6 -left-6 glass p-6 rounded-2xl shadow-lg max-w-[200px]">
