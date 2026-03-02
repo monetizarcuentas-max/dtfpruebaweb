@@ -31,71 +31,85 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (isCalculator) return null;
+  const navLinks = [
+    { name: 'Inicio', href: '/#inicio' },
+    { name: 'Servicios', href: '/#servicios' },
+    { name: 'Ventajas', href: '/#ventajas' },
+    { name: 'Contacto', href: '/#contacto' },
+  ];
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-3 shadow-sm' : 'bg-transparent py-6'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <img 
-            src={logo} 
-            alt="DTF Venado Logo" 
-            className="h-12 w-auto object-contain"
-            referrerPolicy="no-referrer"
-          />
-        </div>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white/80 backdrop-blur-md py-4 shadow-sm' : 'bg-transparent py-6'
+    }`}>
+      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <Link to="/" className="flex items-center gap-2 group">
+          <img src={logo} alt="DTF Venado Logo" className="h-10 w-auto" />
+          <span className="text-2xl font-black tracking-tighter group-hover:text-brand-accent transition-colors">
+            DTF <span className="text-brand-accent">VENADO</span>
+          </span>
+        </Link>
 
-        {/* Desktop Menu */}
+        {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {['Servicios', 'Ventajas', 'Tecnología', 'Contacto'].map((item) => (
+          {!isCalculator && navLinks.map((link) => (
             <a 
-              key={item} 
-              href={`#${item.toLowerCase()}`} 
-              className="text-sm font-medium text-zinc-600 hover:text-brand-accent transition-colors"
+              key={link.name} 
+              href={link.href}
+              className="text-sm font-bold uppercase tracking-widest hover:text-brand-accent transition-colors"
             >
-              {item}
+              {link.name}
             </a>
           ))}
-          <Link to="/cotizar" className="btn-primary text-sm py-2">
-            Cotizar Ahora
+          <Link 
+            to="/cotizar" 
+            className={`px-6 py-2 rounded-full font-bold transition-all ${
+              isCalculator 
+                ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed' 
+                : 'bg-brand-accent text-white hover:bg-brand-accent/90 shadow-lg shadow-brand-accent/20'
+            }`}
+          >
+            Cotizar
           </Link>
         </div>
 
-        {/* Mobile Menu Toggle */}
+        {/* Mobile Menu Button */}
         <button 
-          className="md:hidden p-2 text-zinc-900"
+          className="md:hidden text-zinc-900"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Nav */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-white border-b border-zinc-100 p-6 md:hidden flex flex-col gap-4 shadow-xl"
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden bg-white border-t border-zinc-100 overflow-hidden"
           >
-            {['Servicios', 'Ventajas', 'Tecnología', 'Contacto'].map((item) => (
-              <a 
-                key={item} 
-                href={`#${item.toLowerCase()}`} 
-                className="text-lg font-medium text-zinc-900"
+            <div className="px-6 py-8 flex flex-col gap-6">
+              {!isCalculator && navLinks.map((link) => (
+                <a 
+                  key={link.name} 
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-xl font-bold"
+                >
+                  {link.name}
+                </a>
+              ))}
+              <Link 
+                to="/cotizar"
                 onClick={() => setIsMobileMenuOpen(false)}
+                className="bg-brand-accent text-white p-4 rounded-2xl text-center font-bold"
               >
-                {item}
-              </a>
-            ))}
-            <Link 
-              to="/cotizar" 
-              className="btn-primary w-full text-center"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Cotizar Ahora
-            </Link>
+                Cotizar Ahora
+              </Link>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -174,25 +188,29 @@ const Services = () => {
       title: "Impresión DTF Textil",
       desc: "Ideal para prendas, merchandising, uniformes y artículos personalizados.",
       icon: <Printer className="text-brand-accent" size={32} />,
-      image: "https://picsum.photos/seed/tshirt-print/600/400"
+      image: "/servicio-1.png",
+      fallback: "https://picsum.photos/seed/tshirt-print/600/400"
     },
     {
       title: "Impresión DTF UV",
       desc: "Impresión directa sobre superficies rígidas como botellas, mates, acrílicos y más.",
       icon: <Layers className="text-brand-accent" size={32} />,
-      image: "https://picsum.photos/seed/uv-printing/600/400"
+      image: "/servicio-2.png",
+      fallback: "https://picsum.photos/seed/uv-printing/600/400"
     },
     {
       title: "Estampado y Aplicación",
       desc: "Asesoramiento en materiales, temperaturas y técnicas de transferencia.",
       icon: <Zap className="text-brand-accent" size={32} />,
-      image: "https://picsum.photos/seed/heat-press/600/400"
+      image: "/servicio-3.png",
+      fallback: "https://picsum.photos/seed/heat-press/600/400"
     },
     {
       title: "Venta de Sustratos",
       desc: "Amplia variedad de productos listos para personalizar: mates, botellas, tazas.",
       icon: <Users className="text-brand-accent" size={32} />,
-      image: "https://picsum.photos/seed/sublimation-products/600/400"
+      image: "/servicio-4.png",
+      fallback: "https://picsum.photos/seed/sublimation-products/600/400"
     }
   ];
 
@@ -222,6 +240,10 @@ const Services = () => {
                   alt={service.title} 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = service.fallback;
+                  }}
                 />
               </div>
             </motion.div>
@@ -247,10 +269,14 @@ const Advantages = () => {
         <div className="order-2 lg:order-1">
           <div className="aspect-video rounded-3xl overflow-hidden shadow-xl">
             <img 
-              src="https://picsum.photos/seed/dtf-workshop/800/600" 
+              src="/taller.png" 
               alt="Nuestro Taller" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "https://picsum.photos/seed/dtf-workshop/800/600";
+              }}
             />
           </div>
         </div>
@@ -299,17 +325,6 @@ const Contact = () => {
               </div>
             </div>
           </div>
-          <div className="flex justify-center gap-6 pt-12">
-            <a 
-              href="https://www.instagram.com/dtf_venado/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-brand-accent transition-colors"
-              title="Instagram"
-            >
-              <Instagram size={24} />
-            </a>
-          </div>
         </div>
       </div>
     </section>
@@ -320,55 +335,50 @@ const Footer = () => {
   return (
     <footer className="py-12 border-t border-zinc-100">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-        <div className="flex items-center gap-3">
-          <img 
-            src={logo} 
-            alt="DTF Venado Logo" 
-            className="h-10 w-auto object-contain"
-            referrerPolicy="no-referrer"
-          />
+        <div className="flex items-center gap-2">
+          <img src={logo} alt="DTF Venado Logo" className="h-8 w-auto" />
+          <span className="text-xl font-black tracking-tighter">
+            DTF <span className="text-brand-accent">VENADO</span>
+          </span>
         </div>
+        
+        <div className="flex gap-6">
+          <a href="#" className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-brand-accent hover:text-white hover:border-brand-accent transition-all">
+            <Instagram size={20} />
+          </a>
+          <a href="#" className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-brand-accent hover:text-white hover:border-brand-accent transition-all">
+            <Facebook size={20} />
+          </a>
+        </div>
+
         <p className="text-zinc-500 text-sm">
           © {new Date().getFullYear()} DTF Venado. Todos los derechos reservados.
         </p>
-        <div className="flex gap-6 items-center">
-          <a 
-            href="https://www.instagram.com/dtf_venado/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="text-zinc-400 hover:text-brand-accent transition-colors"
-            title="Instagram"
-          >
-            <Instagram size={20} />
-          </a>
-          <a href="#" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-black">Privacidad</a>
-          <a href="#" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-black">Términos</a>
-        </div>
       </div>
     </footer>
   );
 };
 
-const LandingPage = () => (
-  <>
-    <Hero />
-    <Services />
-    <Advantages />
-    <Contact />
-    <Footer />
-  </>
-);
-
-export default function App() {
+function App() {
   return (
     <Router>
-      <div className="min-h-screen">
+      <div className="min-h-screen bg-white text-zinc-900 selection:bg-brand-accent selection:text-white">
         <Navbar />
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={
+            <>
+              <Hero />
+              <Services />
+              <Advantages />
+              <Contact />
+              <Footer />
+            </>
+          } />
           <Route path="/cotizar" element={<Calculator />} />
         </Routes>
       </div>
     </Router>
   );
 }
+
+export default App;
