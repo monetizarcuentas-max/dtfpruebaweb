@@ -46,7 +46,7 @@ const Navbar = () => {
         <Link to="/" className="flex items-center gap-2 group">
           <img src={logo} alt="DTF Venado Logo" className="h-10 w-auto" />
           <span className="text-2xl font-black tracking-tighter group-hover:text-brand-accent transition-colors">
-            DTF <span className="text-brand-accent">VENADO</span>
+             <span className="text-brand-accent"></span>
           </span>
         </Link>
 
@@ -338,7 +338,7 @@ const Footer = () => {
         <div className="flex items-center gap-2">
           <img src={logo} alt="DTF Venado Logo" className="h-8 w-auto" />
           <span className="text-xl font-black tracking-tighter">
-            DTF <span className="text-brand-accent">VENADO</span>
+             <span className="text-brand-accent"></span>
           </span>
         </div>
         
