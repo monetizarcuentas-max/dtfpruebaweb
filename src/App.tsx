@@ -149,7 +149,7 @@ const Hero = () => {
               referrerPolicy="no-referrer"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.src = "https://images.unsplash.com/photo-1635805737707-575885ab0820?q=80&w=800";
+                target.src = "portada";
               }}
             />
           </div>
