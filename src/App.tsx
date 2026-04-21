@@ -130,12 +130,12 @@ const Hero = () => {
             Especialistas en impresión y estampado de alta calidad. Soluciones personalizadas en DTF textil y DTF UV para empresas, diseñadores y emprendedores.
           </p>
           <div className="flex flex-wrap gap-4">
-            <a href="#servicios" className="btn-primary flex items-center gap-2">
-              Ver Servicios <ArrowRight size={18} />
-            </a>
-            <Link to="/cotizar" className="btn-secondary">
+            <Link to="/cotizar" className="btn-primary">
               Cotizar Ahora
             </Link>
+            <a href="#servicios" className="btn-secondary flex items-center gap-2">
+              Ver Servicios <ArrowRight size={18} />
+            </a>
           </div>
         </motion.div>
 
