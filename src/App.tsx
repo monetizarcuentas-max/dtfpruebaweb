@@ -31,85 +31,71 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Inicio', href: '/#inicio' },
-    { name: 'Servicios', href: '/#servicios' },
-    { name: 'Ventajas', href: '/#ventajas' },
-    { name: 'Contacto', href: '/#contacto' },
-  ];
+  if (isCalculator) return null;
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      isScrolled ? 'bg-white/80 backdrop-blur-md py-4 shadow-sm' : 'bg-transparent py-6'
-    }`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-2 group">
-          <img src={logo} alt="DTF Venado Logo" className="h-10 w-auto" />
-          <span className="text-2xl font-black tracking-tighter group-hover:text-brand-accent transition-colors">
-             <span className="text-brand-accent"></span>
-          </span>
-        </Link>
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-3 shadow-sm' : 'bg-transparent py-6'}`}>
+      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <img 
+            src={logo} 
+            alt="DTF Venado Logo" 
+            className="h-12 w-auto object-contain"
+            referrerPolicy="no-referrer"
+          />
+        </div>
 
-        {/* Desktop Nav */}
+        {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          {!isCalculator && navLinks.map((link) => (
+          {['Servicios', 'Ventajas', 'Tecnología', 'Contacto'].map((item) => (
             <a 
-              key={link.name} 
-              href={link.href}
-              className="text-sm font-bold uppercase tracking-widest hover:text-brand-accent transition-colors"
+              key={item} 
+              href={`#${item.toLowerCase()}`} 
+              className="text-sm font-medium text-zinc-600 hover:text-brand-accent transition-colors"
             >
-              {link.name}
+              {item}
             </a>
           ))}
-          <Link 
-            to="/cotizar" 
-            className={`px-6 py-2 rounded-full font-bold transition-all ${
-              isCalculator 
-                ? 'bg-zinc-100 text-zinc-400 cursor-not-allowed' 
-                : 'bg-brand-accent text-white hover:bg-brand-accent/90 shadow-lg shadow-brand-accent/20'
-            }`}
-          >
-            Cotizar
+          <Link to="/cotizar" className="btn-primary text-sm py-2">
+            Cotizar Ahora
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Toggle */}
         <button 
-          className="md:hidden text-zinc-900"
+          className="md:hidden p-2 text-zinc-900"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
 
-      {/* Mobile Nav */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white border-t border-zinc-100 overflow-hidden"
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="absolute top-full left-0 right-0 bg-white border-b border-zinc-100 p-6 md:hidden flex flex-col gap-4 shadow-xl"
           >
-            <div className="px-6 py-8 flex flex-col gap-6">
-              {!isCalculator && navLinks.map((link) => (
-                <a 
-                  key={link.name} 
-                  href={link.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-xl font-bold"
-                >
-                  {link.name}
-                </a>
-              ))}
-              <Link 
-                to="/cotizar"
+            {['Servicios', 'Ventajas', 'Tecnología', 'Contacto'].map((item) => (
+              <a 
+                key={item} 
+                href={`#${item.toLowerCase()}`} 
+                className="text-lg font-medium text-zinc-900"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="bg-brand-accent text-white p-4 rounded-2xl text-center font-bold"
               >
-                Cotizar Ahora
-              </Link>
-            </div>
+                {item}
+              </a>
+            ))}
+            <Link 
+              to="/cotizar" 
+              className="btn-primary w-full text-center"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Cotizar Ahora
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
@@ -325,6 +311,17 @@ const Contact = () => {
               </div>
             </div>
           </div>
+          <div className="flex justify-center gap-6 pt-12">
+            <a 
+              href="https://www.instagram.com/dtf_venado/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-brand-accent transition-colors"
+              title="Instagram"
+            >
+              <Instagram size={24} />
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -335,50 +332,55 @@ const Footer = () => {
   return (
     <footer className="py-12 border-t border-zinc-100">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-        <div className="flex items-center gap-2">
-          <img src={logo} alt="DTF Venado Logo" className="h-8 w-auto" />
-          <span className="text-xl font-black tracking-tighter">
-             <span className="text-brand-accent"></span>
-          </span>
+        <div className="flex items-center gap-3">
+          <img 
+            src={logo} 
+            alt="DTF Venado Logo" 
+            className="h-10 w-auto object-contain"
+            referrerPolicy="no-referrer"
+          />
         </div>
-        
-        <div className="flex gap-6">
-          <a href="#" className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-brand-accent hover:text-white hover:border-brand-accent transition-all">
-            <Instagram size={20} />
-          </a>
-          <a href="#" className="w-10 h-10 rounded-full border border-zinc-200 flex items-center justify-center hover:bg-brand-accent hover:text-white hover:border-brand-accent transition-all">
-            <Facebook size={20} />
-          </a>
-        </div>
-
         <p className="text-zinc-500 text-sm">
           © {new Date().getFullYear()} DTF Venado. Todos los derechos reservados.
         </p>
+        <div className="flex gap-6 items-center">
+          <a 
+            href="https://www.instagram.com/dtf_venado/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-zinc-400 hover:text-brand-accent transition-colors"
+            title="Instagram"
+          >
+            <Instagram size={20} />
+          </a>
+          <a href="#" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-black">Privacidad</a>
+          <a href="#" className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-black">Términos</a>
+        </div>
       </div>
     </footer>
   );
 };
 
-function App() {
+const LandingPage = () => (
+  <>
+    <Hero />
+    <Services />
+    <Advantages />
+    <Contact />
+    <Footer />
+  </>
+);
+
+export default function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-white text-zinc-900 selection:bg-brand-accent selection:text-white">
+      <div className="min-h-screen">
         <Navbar />
         <Routes>
-          <Route path="/" element={
-            <>
-              <Hero />
-              <Services />
-              <Advantages />
-              <Contact />
-              <Footer />
-            </>
-          } />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/cotizar" element={<Calculator />} />
         </Routes>
       </div>
     </Router>
   );
 }
-
-export default App;
