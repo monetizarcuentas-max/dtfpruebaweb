@@ -25,9 +25,9 @@
 }
 
 .btn-primary {
-  @apply px-6 py-3 bg-black text-white rounded-full font-medium transition-all hover:bg-zinc-800 active:scale-95;
+  @apply px-6 py-3 bg-brand-accent text-white shadow-lg shadow-brand-accent/20 rounded-full font-bold transition-all hover:bg-brand-accent/90 active:scale-95;
 }
 
 .btn-secondary {
-  @apply px-6 py-3 bg-white text-black border border-zinc-200 rounded-full font-medium transition-all hover:bg-zinc-50 active:scale-95;
+  @apply px-6 py-3 bg-white text-zinc-900 border border-zinc-200 rounded-full font-bold transition-all hover:bg-zinc-50 active:scale-95;
 }
